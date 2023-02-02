@@ -89,7 +89,6 @@ export const FindMovie: FC<Props> = memo(({ movies, addMovie }) => {
 
           <div className="control">
             <input
-              data-cy="titleField"
               type="text"
               id="movie-title"
               placeholder="Enter a title to search"
@@ -99,12 +98,12 @@ export const FindMovie: FC<Props> = memo(({ movies, addMovie }) => {
             />
           </div>
           {isError && (
-            <p className="help is-danger" data-cy="errorMessage">
+            <p className="help is-danger">
               Can&apos;t find a movie with such a title
             </p>
           )}
           {isIncluded && (
-            <p className="help is-danger" data-cy="errorMessage">
+            <p className="help is-danger">
               The movie is already on the list
             </p>
           )}
@@ -113,15 +112,10 @@ export const FindMovie: FC<Props> = memo(({ movies, addMovie }) => {
         <div className="field is-grouped">
           <div className="control">
             <button
-              data-cy="searchButton"
               type="submit"
-              className={cn(
-                'button',
-                'is-light',
-                {
-                  'is-loading': isLoading,
-                },
-              )}
+              className={cn("button", "is-light", {
+                "is-loading": isLoading,
+              })}
               disabled={!query.length}
               onClick={handleFind}
             >
@@ -130,23 +124,25 @@ export const FindMovie: FC<Props> = memo(({ movies, addMovie }) => {
           </div>
 
           {movie && (
-            <div className="control">
-              <button
-                data-cy="addButton"
-                type="button"
-                className="button is-primary"
-                onClick={handleAdd}
-              >
-                Add to the list
-              </button>
-            </div>
+              <div className="control">
+                <button
+                  type="button"
+                  className="button is-primary"
+                  onClick={handleAdd}
+                >
+                  Add to the watch list
+                </button>
+              </div>
           )}
         </div>
       </form>
 
       {movie && (
-        <div className="container" data-cy="previewContainer">
-          <h2 className="title">Preview</h2>
+        <div className="container">
+          <h2 className="title">
+            Preview
+          </h2>
+
           <MovieCard movie={movie} />
         </div>
       )}
