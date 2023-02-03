@@ -10,7 +10,7 @@ export const PageNavigation = () => (
       <div className="navbar-brand">
         <PageNavLink to="/" text="Home" />
         <PageNavLink to="/watchlist" text="Watch List" />
-        <PageNavLink to="watched" text="Watched" />
+        <PageNavLink to="/watched" text="Watched" />
       </div>
     </div>
   </nav>
