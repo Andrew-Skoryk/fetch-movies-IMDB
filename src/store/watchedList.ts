@@ -30,13 +30,13 @@ const watchedListSlice = createSlice({
       } catch (error) {
         state.error = 'Unexpected error occurred';
       } finally {
-         state.loading = false;
+        state.loading = false;
       }
     },
     take: (state, action: PayloadAction<string>) => {
       state.movies = state.movies.filter(movie => (
         movie.imdbId !== action.payload
-      ))
+      ));
     },
     clearError: (state) => {
       state.error = '';

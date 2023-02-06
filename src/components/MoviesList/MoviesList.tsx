@@ -1,9 +1,9 @@
-import { FC } from "react";
-import "./MoviesList.scss";
-import { MovieCard } from "../MovieCard";
-import { Movie } from "../../types/Movie";
-import { useAppSelector } from "../../store/hooks";
-import { ButtonMoveToWatchList } from "./ButtonMoveToWatchList";
+import { FC } from 'react';
+import './MoviesList.scss';
+import { MovieCard } from '../MovieCard';
+import { Movie } from '../../types/Movie';
+import { useAppSelector } from '../../store/hooks';
+import { ButtonMoveToWatchList } from './ButtonMoveToWatchList';
 
 type Props = {
   movies: Movie[];
