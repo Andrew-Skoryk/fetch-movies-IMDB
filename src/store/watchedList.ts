@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import * as watchedListService from '../api/watchedListService';
 import { Movie } from '../types/Movie';
 
 type watchedListState = {
@@ -44,8 +45,28 @@ const watchedListSlice = createSlice({
     clear: (state) => {
       state.movies = [];
     },
-  }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(init.pending, (state) => {
+      state.loading = true;
+     });
+
+    builder.addCase(init.fulfilled, (state, action) => {
+      state.movies = action.payload || [];
+      state.loading = false;
+    });
+
+     builder.addCase(init.rejected, (state) => {
+      state.loading = false;
+      state.error = 'Can NOT load Watched list';
+    });
+   },
 });
 
+export const init = createAsyncThunk('watchedList/fetch', () => {
+    return watchedListService.fetchWatched();
+  }
+);
+
 export default watchedListSlice.reducer;
-export const { actions } = watchedListSlice;
+export const { add, take, clearError } = watchedListSlice.actions;

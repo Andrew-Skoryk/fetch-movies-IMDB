@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { MovieData } from './types/MovieData';
-import { ResponseError } from './types/ReponseError';
+import { MovieData } from '../types/MovieData';
+import { ResponseError } from '../types/ReponseError';
 
 export async function getMovie(query: string): Promise<MovieData | ResponseError> {
     try {

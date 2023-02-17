@@ -18,3 +18,7 @@
 5. Add **watched** button;
 
 6. Add React Router;
+
+7. Add Redux for data manipulation;
+
+8. Use SupaBase as a backend;

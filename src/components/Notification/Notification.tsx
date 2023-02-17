@@ -1,6 +1,6 @@
 import { FC, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { actions } from '../../store/watchedList';
+import * as watchListActions from "../../store/watchedList";
 import './Notification.scss';
 
 type Props = {
@@ -11,7 +11,7 @@ export const Notification: FC<Props> = ({ text }) => {
   const dispatch = useDispatch();
 
   const handleCloseNotification = useCallback(() => {
-    dispatch(actions.clearError());
+    dispatch(watchListActions.clearError());
   }, [dispatch]);
 
   return (

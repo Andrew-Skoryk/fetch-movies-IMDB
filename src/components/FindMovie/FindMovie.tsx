@@ -1,31 +1,23 @@
-import {
-  FC,
-  FormEvent,
-  useState,
-  memo,
-  ChangeEvent,
-} from 'react';
-import cn from 'classnames';
-import { getMovie } from '../../api';
-import { Movie } from '../../types/Movie';
-import { MovieCard } from '../MovieCard';
-import './FindMovie.scss';
+import { FC, FormEvent, useState, memo, ChangeEvent } from "react";
+import cn from "classnames";
+import { getMovie } from "../../api/imdbFetch";
+import { Movie } from "../../types/Movie";
+import { MovieCard } from "../MovieCard";
+import "./FindMovie.scss";
 
 type Props = {
   movies: Movie[];
-  addMovie: (newMovie: Movie) => void
+  addMovie: (newMovie: Movie) => void;
 };
 
 export const FindMovie: FC<Props> = memo(({ movies, addMovie }) => {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   const [movie, setMovie] = useState<Movie | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isIncluded, setIsIncluded] = useState(false);
 
-  const includedInList = movies.some(({ imdbId }) => (
-    imdbId === movie?.imdbId
-  ));
+  const includedInList = movies.some(({ imdbId }) => imdbId === movie?.imdbId);
 
   const handleFind = async (event: FormEvent) => {
     event.preventDefault();
@@ -35,19 +27,16 @@ export const FindMovie: FC<Props> = memo(({ movies, addMovie }) => {
     try {
       const responseFromServer = await getMovie(query);
 
-      if ('imdbID' in responseFromServer) {
-        const {
-          Poster,
-          Title,
-          Plot,
-          imdbID,
-        } = responseFromServer;
+      if ("imdbID" in responseFromServer) {
+        const { Poster, Title, Plot, imdbID } = responseFromServer;
 
         const newMovie = {
           title: Title,
           description: Plot,
           imgUrl:
-            Poster !== "N/A" ? Poster : process.env.REACT_APP_DEAFULT_PICTURE as string,
+            Poster !== "N/A"
+              ? Poster
+              : (process.env.REACT_APP_DEAFULT_PICTURE as string),
           imdbUrl: `https://www.imdb.com/title/${imdbID}`,
           imdbId: imdbID,
         };
@@ -62,7 +51,7 @@ export const FindMovie: FC<Props> = memo(({ movies, addMovie }) => {
   };
 
   const handleAdd = () => {
-    setQuery('');
+    setQuery("");
 
     if (!includedInList && movie) {
       addMovie(movie);
@@ -103,9 +92,7 @@ export const FindMovie: FC<Props> = memo(({ movies, addMovie }) => {
             </p>
           )}
           {isIncluded && (
-            <p className="help is-danger">
-              The movie is already on the list
-            </p>
+            <p className="help is-danger">The movie is already on the list</p>
           )}
         </div>
 
@@ -124,24 +111,22 @@ export const FindMovie: FC<Props> = memo(({ movies, addMovie }) => {
           </div>
 
           {movie && (
-              <div className="control">
-                <button
-                  type="button"
-                  className="button is-primary"
-                  onClick={handleAdd}
-                >
-                  Add to the watch list
-                </button>
-              </div>
+            <div className="control">
+              <button
+                type="button"
+                className="button is-primary"
+                onClick={handleAdd}
+              >
+                Add to the watch list
+              </button>
+            </div>
           )}
         </div>
       </form>
 
       {movie && (
         <div className="container">
-          <h2 className="title">
-            Preview
-          </h2>
+          <h2 className="title">Preview</h2>
 
           <MovieCard movie={movie} />
         </div>

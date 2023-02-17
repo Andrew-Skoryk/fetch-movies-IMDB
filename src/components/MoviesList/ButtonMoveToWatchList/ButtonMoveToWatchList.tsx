@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { FC, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { Movie } from "../../../types/Movie";
-import { actions } from "../../../store/watchedList";
+import * as watchListActions from "../../../store/watchedList";
 import "./ButtonMoveToWatchList.scss";
 
 type Props = {
@@ -15,7 +15,7 @@ export const ButtonMoveToWatchList: FC<Props> = ({ loading, movie }) => {
 
     const handleAddToWatched = useCallback(
       (movie: Movie) => {
-        dispatch(actions.add(movie));
+        dispatch(watchListActions.add(movie));
       },
       [dispatch]
     );

@@ -1,25 +1,33 @@
-import { useCallback } from "react";
-import { useDispatch } from "react-redux";
-import { useAppSelector } from "../store/hooks";
-import { actions } from "../store/watchedList";
+import { useCallback, useEffect } from "react";
+import { Loader } from "../components/Loader";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import * as watchListActions from "../store/watchedList";
 import { MoviesList } from "./../components/MoviesList";
 
 export const WatchedPage = () => {
-  const dispatch = useDispatch();
-  const { movies } = useAppSelector((state) => state.watchedList);
+  const dispatch = useAppDispatch();
+  const { movies, loading } = useAppSelector((state) => state.watchedList);
 
   const handleDeleteMovie = useCallback((id: string) => {
-    dispatch(actions.take(id));
+    dispatch(watchListActions.take(id));
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(watchListActions.init());
+  }, []);
 
   return (
     <div className="page">
       <div className="page-content">
-        <MoviesList
-          movies={movies}
-          deleteMovie={handleDeleteMovie}
-          withButtons={false}
-        />
+        {loading ? (
+          <Loader />
+        ) : (
+          <MoviesList
+            movies={movies}
+            deleteMovie={handleDeleteMovie}
+            withButtons={false}
+          />
+        )}
       </div>
     </div>
   );
