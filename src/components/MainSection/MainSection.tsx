@@ -3,7 +3,11 @@ import { useAppSelector } from '../../store/hooks';
 import { Notification } from '../Notification';
 
 export const MainSection = () => {
-  const { error } = useAppSelector((state) => state.watchedList);
+  const { error: watchedListError } = useAppSelector((state) => state.watchedList);
+  const { error: moviesListError } = useAppSelector((state) => state.moviesList);
+
+  const error = watchedListError || moviesListError;
+
 
   return (
     <main className="section">

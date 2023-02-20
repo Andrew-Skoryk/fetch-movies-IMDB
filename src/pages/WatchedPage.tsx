@@ -8,8 +8,9 @@ export const WatchedPage = () => {
   const dispatch = useAppDispatch();
   const { movies, loading } = useAppSelector((state) => state.watchedList);
 
-  const handleDeleteMovie = useCallback((id: string) => {
-    dispatch(watchListActions.take(id));
+  const handleDeleteMovie = useCallback(async (id: string) => {
+    await dispatch(watchListActions.deleteFromWatchedList(id));
+    dispatch(watchListActions.init());
   }, [dispatch]);
 
   useEffect(() => {
@@ -25,7 +26,6 @@ export const WatchedPage = () => {
           <MoviesList
             movies={movies}
             deleteMovie={handleDeleteMovie}
-            withButtons={false}
           />
         )}
       </div>

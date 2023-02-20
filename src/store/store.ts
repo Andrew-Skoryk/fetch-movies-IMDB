@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import * as moviesReducer from './watchedList';
+import * as watchedListReducer from './watchedList';
+import * as moviesListReducer from './moviesList';
 
 export const store = configureStore({
   reducer: {
-    watchedList: moviesReducer.default,
+    moviesList: moviesListReducer.default,
+    watchedList: watchedListReducer.default,
   },
 })
 

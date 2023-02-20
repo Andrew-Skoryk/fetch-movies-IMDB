@@ -2,17 +2,15 @@ import { FC } from 'react';
 import './MoviesList.scss';
 import { MovieCard } from '../MovieCard';
 import { Movie } from '../../types/Movie';
-import { useAppSelector } from '../../store/hooks';
 import { ButtonMoveToWatchList } from './ButtonMoveToWatchList';
 
 type Props = {
   movies: Movie[];
   deleteMovie: (id: string) => void;
-  withButtons: boolean;
+  withButtons?: boolean;
 };
 
 export const MoviesList: FC<Props> = ({ movies, deleteMovie, withButtons }) => {
-  const { loading } = useAppSelector((state) => state.watchedList);
 
   return (
     <div className="movies">
@@ -27,7 +25,7 @@ export const MoviesList: FC<Props> = ({ movies, deleteMovie, withButtons }) => {
             ></button>
           </div>
           {withButtons && (
-            <ButtonMoveToWatchList loading={loading} movie={movie} />
+            <ButtonMoveToWatchList  movie={movie} />
           )}
         </div>
       ))}

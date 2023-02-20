@@ -1,16 +1,18 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import * as watchedListService from '../api/watchedListService';
 import { Movie } from '../types/Movie';
 
 type watchedListState = {
   movies: Movie[],
   loading: boolean;
+  loadingId: string,
   error: string;
 };
 
 const initialState: watchedListState = {
   movies: [],
   loading: false,
+  loadingId: '',
   error: '',  
 };
 
@@ -18,27 +20,6 @@ const watchedListSlice = createSlice({
   name: 'watchedList',
   initialState,
   reducers: {
-    add: (state, action: PayloadAction<Movie>) => {
-      state.loading = true;
-
-      try {
-        if (state.movies.some(({ imdbId }) => imdbId === action.payload.imdbId)) {
-          state.error = 'The movie is already on the list';
-          return;
-        }
-
-        state.movies.unshift(action.payload);
-      } catch (error) {
-        state.error = 'Unexpected error occurred';
-      } finally {
-        state.loading = false;
-      }
-    },
-    take: (state, action: PayloadAction<string>) => {
-      state.movies = state.movies.filter(movie => (
-        movie.imdbId !== action.payload
-      ));
-    },
     clearError: (state) => {
       state.error = '';
     },
@@ -47,6 +28,7 @@ const watchedListSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    // Init
     builder.addCase(init.pending, (state) => {
       state.loading = true;
      });
@@ -60,13 +42,43 @@ const watchedListSlice = createSlice({
       state.loading = false;
       state.error = 'Can NOT load Watched list';
     });
+
+    // Add To Watch List
+    builder.addCase(addToWatchedList.pending, (state, action) => {
+      state.loadingId = action.meta.arg.imdbId;
+
+      if (state.movies.some(({ imdbId }) => imdbId === action.meta.arg.imdbId)) {
+        state.error = 'The movie is already on the list';
+      }
+    });
+
+    builder.addCase(addToWatchedList.fulfilled, (state) => {
+      state.loadingId = '';
+    });
+
+     builder.addCase(addToWatchedList.rejected, (state) => {
+      state.loadingId = '';
+      state.error = 'Can NOT add the movie to Watched list';
+     });
+    
+        // Delete From Watch List
+     builder.addCase(deleteFromWatchedList.rejected, (state) => {
+      state.error = 'Can NOT delete the movie from Watched list';
+    });
    },
 });
 
-export const init = createAsyncThunk('watchedList/fetch', () => {
-    return watchedListService.fetchWatched();
-  }
-);
+export const init = createAsyncThunk('watchedList/fetch', () => (
+  watchedListService.fetchWatched()
+));
+
+export const addToWatchedList = createAsyncThunk('watchedList/addToList', (newMovie: Movie) => {
+  return watchedListService.addToWatched(newMovie)
+});
+
+export const deleteFromWatchedList = createAsyncThunk('watchedList/delete', (id: string) => (
+  watchedListService.deleteMovie(id)
+));
 
 export default watchedListSlice.reducer;
-export const { add, take, clearError } = watchedListSlice.actions;
+export const { clearError } = watchedListSlice.actions;

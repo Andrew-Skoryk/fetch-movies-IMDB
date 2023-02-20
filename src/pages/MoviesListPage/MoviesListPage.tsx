@@ -1,42 +1,49 @@
 import { useCallback, useState, useEffect } from "react";
 import { FindMovie } from "../../components/FindMovie";
 import { MoviesList } from "../../components/MoviesList";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import * as moviesListActions from "../../store/moviesList";
 import { Movie } from "../../types/Movie";
 import './MoviesListPage.scss';
+import { Loader } from "../../components/Loader";
 
 export const MoviesListPage = () => {
-  const [movies, setMovies] = useState<Movie[]>([]);
+  const dispatch = useAppDispatch();
+
+  const { movies, loading } = useAppSelector((state) => state.moviesList);
 
   useEffect(() => {
-    const movies: Movie[] = JSON.parse(localStorage.getItem("movies") as string);
-    
-    if (movies) {
-      setMovies(movies);
-    }
+    dispatch(moviesListActions.init());
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("movies", JSON.stringify(movies));
-  }, [movies]);
+  const handleAddMovie = useCallback(
+    async (newMovie: Movie) => {
+      await dispatch(moviesListActions.addToMoviesList(newMovie));
+      dispatch(moviesListActions.init());
+    },
+    [moviesListActions, dispatch]
+  );
 
-  const handleAddMovie = useCallback((newMovie: Movie) => {
-    setMovies((currentMovies) => [...currentMovies, newMovie]);
-  }, []);
-
-  const handleDeleteMovie = useCallback((id: string) => {
-    setMovies((currentMovies) =>
-      currentMovies.filter((movie) => movie.imdbId !== id)
-    );
-  }, []);
+  const handleDeleteMovie = useCallback(
+    async (id: string) => {
+      await dispatch(moviesListActions.deleteFromMoviesList(id));
+      dispatch(moviesListActions.init());
+    },
+    [moviesListActions, dispatch]
+  );
 
   return (
     <div className="page">
       <div className="page-content">
-        <MoviesList
-          movies={movies}
-          deleteMovie={handleDeleteMovie}
-          withButtons={true}
-        />
+        {loading ? (
+          <Loader />
+        ) : (
+          <MoviesList
+            movies={movies}
+            deleteMovie={handleDeleteMovie}
+            withButtons={true}
+          />
+        )}
       </div>
 
       <div className="sidebar">
