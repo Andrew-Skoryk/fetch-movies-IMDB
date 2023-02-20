@@ -10,7 +10,7 @@ import { App } from "./App";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import { HomePage } from "./pages/HomePage";
 import { MoviesListPage } from "./pages/MoviesListPage/MoviesListPage";
-import { WatchedPage } from "./pages/WatchedPage";
+import { WatchedPage } from "./pages/WatchedPage/WatchedPage";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 

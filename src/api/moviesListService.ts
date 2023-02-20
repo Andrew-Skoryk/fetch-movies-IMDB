@@ -4,7 +4,8 @@ import { supabase } from './superbaseClient';
 export const fetchMovieList = async () => {
   const { data } = await supabase
     .from('watch_list')
-    .select();
+    .select()
+    .order('created_at', { ascending: false });
   
   return data;
 };
