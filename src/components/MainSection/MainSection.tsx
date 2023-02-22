@@ -8,7 +8,6 @@ export const MainSection = () => {
 
   const error = watchedListError || moviesListError;
 
-
   return (
     <main className="section">
       <Outlet />

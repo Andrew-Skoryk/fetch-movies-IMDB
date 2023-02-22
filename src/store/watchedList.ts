@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import * as watchedListService from '../api/watchedListService';
+import watchedListService from '../api/watchedListService';
 import { Movie } from '../types/Movie';
 
 type watchedListState = {
@@ -34,7 +34,7 @@ const watchedListSlice = createSlice({
      });
 
     builder.addCase(init.fulfilled, (state, action) => {
-      state.movies = action.payload || [];
+      state.movies = (action.payload as Movie[]);
       state.loading = false;
     });
 
@@ -69,11 +69,11 @@ const watchedListSlice = createSlice({
 });
 
 export const init = createAsyncThunk('watchedList/fetch', () => (
-  watchedListService.fetchWatched()
+  watchedListService.fetchMovieList()
 ));
 
 export const addToWatchedList = createAsyncThunk('watchedList/addToList', (newMovie: Movie) => {
-  return watchedListService.addToWatched(newMovie)
+  return watchedListService.addToMoviesList(newMovie)
 });
 
 export const deleteFromWatchedList = createAsyncThunk('watchedList/delete', (id: string) => (

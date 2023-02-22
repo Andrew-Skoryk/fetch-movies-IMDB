@@ -4,8 +4,8 @@ import { MoviesList } from "../../components/MoviesList";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import * as moviesListActions from "../../store/moviesList";
 import { Movie } from "../../types/Movie";
-import './MoviesListPage.scss';
 import { Loader } from "../../components/Loader";
+import './MoviesListPage.scss';
 
 export const MoviesListPage = () => {
   const dispatch = useAppDispatch();

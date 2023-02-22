@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import * as moviesListService from '../api/moviesListService';
+import moviesListService from '../api/moviesListService';
 import { Movie } from "../types/Movie";
 
 type moviesListState = {
@@ -24,10 +24,10 @@ const moviesListSlice = createSlice({
       state.loading = true;
      });
 
-    builder.addCase(init.fulfilled, (state, action) => {
-      state.movies = action.payload || [];
-      state.loading = false;
-    });
+  builder.addCase(init.fulfilled, (state, action) => {
+    state.movies = (action.payload as Movie[]);
+    state.loading = false;
+  });
 
      builder.addCase(init.rejected, (state) => {
       state.loading = false;

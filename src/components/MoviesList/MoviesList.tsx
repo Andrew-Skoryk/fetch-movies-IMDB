@@ -3,6 +3,7 @@ import './MoviesList.scss';
 import { MovieCard } from '../MovieCard';
 import { Movie } from '../../types/Movie';
 import { ButtonMoveToWatchList } from './ButtonMoveToWatchList';
+import { SelectRating } from '../SelectRating'
 
 type Props = {
   movies: Movie[];
@@ -24,8 +25,10 @@ export const MoviesList: FC<Props> = ({ movies, deleteMovie, withButtons }) => {
               onClick={() => deleteMovie(movie.imdbId)}
             ></button>
           </div>
-          {withButtons && (
-            <ButtonMoveToWatchList  movie={movie} />
+          {withButtons ? (
+            <ButtonMoveToWatchList movie={movie} />
+          ) : (
+            <SelectRating id={movie.imdbId} movieRating={movie.rating || null} />
           )}
         </div>
       ))}

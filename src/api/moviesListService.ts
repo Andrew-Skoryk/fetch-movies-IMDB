@@ -1,28 +1,7 @@
-import { Movie } from '../types/Movie';
-import { supabase } from './superbaseClient';
+import { SupabaseTableService } from './SupabaseTableService';
 
-export const fetchMovieList = async () => {
-  const { data } = await supabase
-    .from('watch_list')
-    .select()
-    .order('created_at', { ascending: false });
-  
-  return data;
-};
+const tableName = 'watch_list';
 
-export const addToMoviesList = async (newMovie: Movie) => {
-  const responce = await supabase
-    .from('watch_list')
-    .insert(newMovie);
-  
-  return responce;
-}; 
+const moviesListService = new SupabaseTableService(tableName);
 
-export const deleteMovie = async (id: string) => {
-  const responce = await supabase
-    .from('watch_list')
-    .delete()
-    .eq('imdbId', id);
-  
-  return responce;
-};
+export default moviesListService;
