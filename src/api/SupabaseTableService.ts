@@ -15,8 +15,6 @@ export class SupabaseTableService {
       .select()
       .order('created_at', { ascending: false });
     
-    console.log(data);
-    
     if (error) {
       return [];
     }

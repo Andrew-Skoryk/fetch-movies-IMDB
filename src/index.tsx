@@ -9,8 +9,8 @@ import "bulma/css/bulma.css";
 import { App } from "./App";
 import { NotFoundPage } from "./pages/NotFoundPage";
 import { HomePage } from "./pages/HomePage";
-import { MoviesListPage } from "./pages/MoviesListPage/MoviesListPage";
-import { WatchedPage } from "./pages/WatchedPage/WatchedPage";
+import { MoviesListPage } from "./pages/MoviesListPage";
+import { WatchedPage } from "./pages/WatchedPage";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 
@@ -22,6 +22,7 @@ root.render(
       <Routes>
         <Route path="/" element={<App />}>
           <Route index element={<HomePage />} />
+
           <Route path="home" element={<Navigate to="/" replace />} />
 
           <Route path="watchlist" element={<MoviesListPage />} />

@@ -25,7 +25,7 @@ export const ButtonMoveToWatchList: FC<Props> = ({ movie }) => {
 
   return (
     <button
-      className={classNames("button is-info button-move-to-watch-list", {
+      className={classNames("button is-info button-cart", {
         "is-loading": loadingId === movie.imdbId,
       })}
       onClick={() =>
