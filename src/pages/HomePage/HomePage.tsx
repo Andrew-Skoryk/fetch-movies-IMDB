@@ -11,8 +11,8 @@ export const HomePage: FC = () => (
     <p className="box has-text-justified">
       Welcome to the ultimate movie lover's destination! With online database,
       you can easily search for any movie by title and add it to your personal
-      watchlist. Plus, once you've watched it, you can give it a rating and move
-      it to your watched list. No more forgetting which movies you've seen or
+      watchlist. Plus, once you've watched it, you can move it to your watched
+      list and give it a rating. No more forgetting which movies you've seen or
       which ones you still need to watch. Simple and intuitive interface makes
       it easy to keep track of all your favorite flicks. So why not give us a
       try and start building your own personalized movie library today?

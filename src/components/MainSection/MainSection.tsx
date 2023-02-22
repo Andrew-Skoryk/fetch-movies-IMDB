@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import { useAppSelector } from '../../store/hooks';
 import { Notification } from '../Notification';
+import './MainSection.scss';
 
 export const MainSection = () => {
   const { error: watchedListError } = useAppSelector((state) => state.watchedList);
@@ -9,7 +10,7 @@ export const MainSection = () => {
   const error = watchedListError || moviesListError;
 
   return (
-    <main className="section">
+    <main className="section main-section">
       <Outlet />
       {error && (
         <Notification text={error} />
