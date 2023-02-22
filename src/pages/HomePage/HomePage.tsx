@@ -42,7 +42,7 @@ export const HomePage: FC = () => (
 
     <NavLink to={"/watchlist"} className={"home-page_button"}>
       <button className="button is-primary is-large is-rounded">
-        Let&apos;s try
+        Let&apos;s try!
       </button>
     </NavLink>
   </section>
