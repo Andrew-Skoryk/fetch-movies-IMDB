@@ -1,9 +1,10 @@
 import { FC } from "react"
 import { NavLink } from "react-router-dom";
+import { AuthForm } from "../../components/AuthForm/AuthForm";
 import './HomePage.scss';
 
 export const HomePage: FC = () => (
-  <section className="section">
+  <section className="section section-main">
     <h1 className="title is-2 has-text-centered">
       Welcome to the React fetch-imdb-movie Project!
     </h1>
@@ -45,5 +46,7 @@ export const HomePage: FC = () => (
         Let&apos;s try!
       </button>
     </NavLink>
+
+    <AuthForm />
   </section>
 );

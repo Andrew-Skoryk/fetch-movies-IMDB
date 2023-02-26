@@ -2,4 +2,11 @@
   display: flex;
   justify-content: center;
   padding-top: 32px;
+  width: 10%;
+  align-self: center;
+}
+
+.section-main{
+  display: flex;
+  flex-direction: column;
 }

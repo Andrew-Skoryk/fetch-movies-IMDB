@@ -4,10 +4,12 @@ import { PageNavigation } from './components/PageNavigation';
 export const App = () => {
 
   return (
-    <div className="app-content">
+    <div>
       <PageNavigation />
 
-      <MainSection />
+      <div className="block">
+        <MainSection />
+      </div>
     </div>
   );
 };
