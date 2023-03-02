@@ -3,6 +3,7 @@ import cn from "classnames";
 import { getMovie } from "../../api/imdbFetch";
 import { Movie } from "../../types/Movie";
 import { MovieCard } from "../MovieCard";
+import { v4 as uuid } from "uuid";
 import "./FindMovie.scss";
 
 type Props = {
@@ -31,6 +32,7 @@ export const FindMovie: FC<Props> = memo(({ movies, addMovie }) => {
         const { Poster, Title, Plot, imdbID } = responseFromServer;
 
         const newMovie = {
+          id: uuid(),
           title: Title,
           description: Plot,
           imgUrl:

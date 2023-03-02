@@ -1,6 +1,5 @@
 import { FC } from "react"
 import { NavLink } from "react-router-dom";
-import { AuthForm } from "../../components/AuthForm/AuthForm";
 import './HomePage.scss';
 
 export const HomePage: FC = () => (
@@ -46,7 +45,5 @@ export const HomePage: FC = () => (
         Let&apos;s try!
       </button>
     </NavLink>
-
-    <AuthForm />
   </section>
 );

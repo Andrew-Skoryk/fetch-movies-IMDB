@@ -3,9 +3,9 @@ import watchedListService from '../api/watchedListService';
 import { Movie } from '../types/Movie';
 
 type watchedListState = {
-  movies: Movie[],
+  movies: Movie[];
   loading: boolean;
-  loadingId: string,
+  loadingId: string;
   error: string;
 };
 
@@ -24,7 +24,7 @@ const watchedListSlice = createSlice({
       state.error = '';
     },
     clear: (state) => {
-      state.movies = [];
+      state = initialState;
     },
   },
   extraReducers: (builder) => {
@@ -34,13 +34,13 @@ const watchedListSlice = createSlice({
      });
 
     builder.addCase(init.fulfilled, (state, action) => {
-      state.movies = (action.payload as Movie[]);
+      state.movies = action.payload as Movie[];
       state.loading = false;
     });
 
      builder.addCase(init.rejected, (state) => {
       state.loading = false;
-      state.error = 'Can NOT load Watched list';
+      state.error = "Can't load Watched list";
     });
 
     // Add To Watch List
@@ -58,12 +58,12 @@ const watchedListSlice = createSlice({
 
      builder.addCase(addToWatchedList.rejected, (state) => {
       state.loadingId = '';
-      state.error = 'Can NOT add the movie to Watched list';
+      state.error = 'Can\'t add the movie to Watched list';
      });
     
         // Delete From Watch List
      builder.addCase(deleteFromWatchedList.rejected, (state) => {
-      state.error = 'Can NOT delete the movie from Watched list';
+      state.error = 'Can\'t delete the movie from Watched list';
     });
    },
 });

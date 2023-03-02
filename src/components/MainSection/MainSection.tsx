@@ -12,9 +12,8 @@ export const MainSection = () => {
   return (
     <main className="section main-section">
       <Outlet />
-      {error && (
-        <Notification text={error} />
-      )}
+
+      {error && <Notification text={error} />}
     </main>
   );
 };

@@ -1,0 +1,10 @@
+.auth {
+  &_container {
+    display: flex;
+    justify-content: center;
+  }
+
+  &_content {
+    width: 80%;
+  }
+}
