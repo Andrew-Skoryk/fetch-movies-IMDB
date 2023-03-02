@@ -10,7 +10,7 @@ export const MainSection = () => {
   const error = watchedListError || moviesListError;
 
   return (
-    <main className="section main-section">
+    <main className="main-section">
       <Outlet />
 
       {error && <Notification text={error} />}
