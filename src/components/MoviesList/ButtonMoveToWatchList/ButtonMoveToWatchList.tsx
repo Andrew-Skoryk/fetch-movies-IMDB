@@ -18,7 +18,7 @@ export const ButtonMoveToWatchList: FC<Props> = ({ movie }) => {
     async (movie: Movie) => {
       await dispatch(watchedListActions.addToWatchedList(movie));
       dispatch(watchedListActions.init());
-      await dispatch(moviesListActions.deleteFromMoviesList(movie.imdbId));
+      await dispatch(moviesListActions.deleteFromMoviesList(movie.id));
       dispatch(moviesListActions.init());
     },
   [dispatch, movie]);
@@ -32,7 +32,7 @@ export const ButtonMoveToWatchList: FC<Props> = ({ movie }) => {
         handleAddToWatched(movie)
       }
     >
-      Move to 'Watched list'
+      Move to "Watched list"
     </button>
   );
 };

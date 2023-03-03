@@ -16,19 +16,19 @@ export const MoviesList: FC<Props> = ({ movies, deleteMovie, withButtons }) => {
   return (
     <div className="movies">
       {movies.map((movie) => (
-        <div key={movie.imdbId} className="card movie is-relative">
+        <div key={movie.id} className="card movie is-relative">
           <div>
             <MovieCard movie={movie} />
 
             <button
               className="delete is-medium movie__delete"
-              onClick={() => deleteMovie(movie.imdbId)}
+              onClick={() => deleteMovie(movie.id)}
             ></button>
           </div>
           {withButtons ? (
             <ButtonMoveToWatchList movie={movie} />
           ) : (
-            <SelectRating id={movie.imdbId} movieRating={movie.rating || null} />
+            <SelectRating id={movie.id} movieRating={movie.rating || null} />
           )}
         </div>
       ))}

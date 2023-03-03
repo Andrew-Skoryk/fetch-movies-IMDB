@@ -38,9 +38,9 @@ const watchedListSlice = createSlice({
       state.loading = false;
     });
 
-     builder.addCase(init.rejected, (state) => {
+     builder.addCase(init.rejected, (state, action) => {
       state.loading = false;
-      state.error = "Can't load Watched list";
+      state.error = action.payload as string;
     });
 
     // Add To Watch List
@@ -56,29 +56,66 @@ const watchedListSlice = createSlice({
       state.loadingId = '';
     });
 
-     builder.addCase(addToWatchedList.rejected, (state) => {
+     builder.addCase(addToWatchedList.rejected, (state, action) => {
       state.loadingId = '';
-      state.error = 'Can\'t add the movie to Watched list';
+      state.error = action.payload as string;
      });
     
-        // Delete From Watch List
-     builder.addCase(deleteFromWatchedList.rejected, (state) => {
-      state.error = 'Can\'t delete the movie from Watched list';
+    // Delete From Watch List
+     builder.addCase(deleteFromWatchedList.rejected, (state, action) => {
+      state.error = action.payload as string;
     });
    },
 });
 
-export const init = createAsyncThunk('watchedList/fetch', () => (
-  watchedListService.fetchMovieList()
-));
+export const init = createAsyncThunk(
+  'watchedList/fetch',
+  async (_foo, { rejectWithValue }) => {
+    const { data, error } = await watchedListService.fetchMovieList();
 
-export const addToWatchedList = createAsyncThunk('watchedList/addToList', (newMovie: Movie) => {
-  return watchedListService.addToMoviesList(newMovie)
+    if (error) {
+      return rejectWithValue(error.message);
+    }
+
+    return data;
+  });
+
+export const addToWatchedList = createAsyncThunk(
+  'watchedList/addToList',
+  async (newMovie: Movie, { rejectWithValue }) => {
+    const { data: movieList, error: movieListError } = await watchedListService.fetchMovieList();
+    
+    if (movieListError) {
+      return rejectWithValue(movieListError.message);
+    }
+
+    const movieExists = movieList.some(({ imdbId }) => imdbId === newMovie.imdbId);
+    
+    if (movieExists) {
+      return rejectWithValue('The movie already exists in the watched list');
+    }
+    
+    const { data, error } = await watchedListService.addToMoviesList(newMovie);
+
+    if (error) {
+      return rejectWithValue(error.message);
+    }
+
+    return data;
+  }
+);
+
+export const deleteFromWatchedList = createAsyncThunk(
+  'watchedList/delete',
+  async (id: string, { rejectWithValue }) => {
+    const { data, error } = await watchedListService.deleteMovie(id);
+    
+    if (error) {
+      return rejectWithValue(error.message);
+    }
+
+    return data;
 });
-
-export const deleteFromWatchedList = createAsyncThunk('watchedList/delete', (id: string) => (
-  watchedListService.deleteMovie(id)
-));
 
 export default watchedListSlice.reducer;
 export const { clearError } = watchedListSlice.actions;

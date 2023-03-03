@@ -65,17 +65,12 @@ export const create = createAsyncThunk(
   'user/create',
   async ({ email, password }: { email: string, password: string }, { rejectWithValue }) => {
     const { data, error } = await userService.createUser(email, password);
-    const { data: oldUser } = await userService.signInWithEmail(email, password);
-       
+
     if (error) {
       return rejectWithValue(error.message);
     }
 
-    if (oldUser) {
-      return rejectWithValue('Oops! Looks like someone beat you to it. That email address is already taken. Try another one!');
-    }
-
-    return data.user || null ;
+    return data.user;
   }
 );
 
@@ -88,16 +83,16 @@ export const login = createAsyncThunk(
       return rejectWithValue(error.message);
     }
 
-    return data.user || null ;
+    return data.user;
   }
 );
 
 export const signOut = createAsyncThunk(
   'user/signout',
   async () => {
-    const responce = await userService.signOut();
+    const response = await userService.signOut();
 
-    return responce;
+    return response;
   }
 );
 

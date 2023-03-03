@@ -6,7 +6,9 @@ export const App = () => {
 
   return (
     <div className="app">
-      <PageNavigation />
+      <div>
+        <PageNavigation />
+      </div>
 
       <MainSection />
     </div>

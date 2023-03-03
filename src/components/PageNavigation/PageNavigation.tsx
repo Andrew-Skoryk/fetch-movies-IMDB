@@ -12,6 +12,10 @@ export const PageNavigation = () => {
     dispatch(userActions.signOut());
   }, []);
 
+  const handleReuse = useCallback(() => {
+    dispatch(userActions.clearNotification());
+  }, []);
+
   return (
     <nav
       className="navbar has-shadow"
@@ -44,11 +48,19 @@ export const PageNavigation = () => {
                 </>
               ) : (
                 <>
-                  <NavLink to={"/signup"} className={"button is-primary"}>
+                  <NavLink
+                    to={"/signup"}
+                    className={"button is-primary"}
+                    onClick={handleReuse}
+                  >
                     {<strong>Sign up</strong>}
                   </NavLink>
 
-                  <NavLink to={"/login"} className={"button is-light"}>
+                  <NavLink
+                    to={"/login"}
+                    className={"button is-light"}
+                    onClick={handleReuse}
+                  >
                     Log in
                   </NavLink>
                 </>

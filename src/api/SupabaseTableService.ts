@@ -10,41 +10,35 @@ export class SupabaseTableService {
 
 
   fetchMovieList = async () => {
-    const { data, error } = await supabase
+    const response = await supabase
       .from(this.name)
       .select()
       .order('created_at', { ascending: false });
-    
-    if (error) {
-      return [];
-    }
-    
-    return data;
+   
+    return response;
   };
 
   addToMoviesList = async (newMovie: Movie) => {
-    const responce = await supabase
+    const response = await supabase
       .from(this.name)
       .insert(newMovie);
     
-    return responce;
+    return response;
   }; 
 
   deleteMovie = async (id: string) => {
-    const responce = await supabase
+    return await supabase
       .from(this.name)
       .delete()
-      .eq('imdbId', id);
-    
-    return responce;
+      .eq('id', id);
   };
 
   updateMovieRating = async (id: string, rating: number) => {
-    const responce = await supabase
+    const response = await supabase
       .from(this.name)
       .update({ rating })
-      .eq('imdbId', id);
+      .eq('id', id);
     
-  return responce;
+    return response;
   };
 }
