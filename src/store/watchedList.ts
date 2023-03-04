@@ -23,8 +23,23 @@ const watchedListSlice = createSlice({
     clearError: (state) => {
       state.error = '';
     },
-    clear: (state) => {
-      state = initialState;
+    setUpLocalStorage: (state) => {
+      localStorage.setItem('watchedList', JSON.stringify(state.movies));
+    },
+    getFromLocalStorage: (state) => {
+      state.movies = JSON.parse(localStorage.getItem("watchedList") as string) || [];
+    },
+    addToLocalStorage: (state, action) => {
+      if (state.movies.some(({ imdbId }) => imdbId === action.payload.imdbId)) {
+        state.error = 'The movie is already on the list';
+
+        return;
+      }
+
+      state.movies = [action.payload, ...state.movies];
+    },
+    deleteFromLocalStorage: (state, action) => {
+      state.movies = state.movies.filter(({ id }) => id !== action.payload);
     },
   },
   extraReducers: (builder) => {
@@ -118,4 +133,4 @@ export const deleteFromWatchedList = createAsyncThunk(
 });
 
 export default watchedListSlice.reducer;
-export const { clearError } = watchedListSlice.actions;
+export const { setUpLocalStorage, getFromLocalStorage, addToLocalStorage, deleteFromLocalStorage, clearError } = watchedListSlice.actions;

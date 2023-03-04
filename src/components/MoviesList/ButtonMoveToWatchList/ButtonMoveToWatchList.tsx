@@ -13,15 +13,22 @@ type Props = {
 export const ButtonMoveToWatchList: FC<Props> = ({ movie }) => {
   const dispatch = useAppDispatch();
   const { loadingId } = useAppSelector((state) => state.watchedList);
+  const { user } = useAppSelector((state) => state.user);
 
   const handleAddToWatched = useCallback(
     async (movie: Movie) => {
-      await dispatch(watchedListActions.addToWatchedList(movie));
-      dispatch(watchedListActions.init());
-      await dispatch(moviesListActions.deleteFromMoviesList(movie.id));
-      dispatch(moviesListActions.init());
+      if (!user) {
+        dispatch(watchedListActions.addToLocalStorage(movie));
+        dispatch(watchedListActions.setUpLocalStorage());
+        dispatch(moviesListActions.deleteFromLocalStorage(movie.id));
+      } else {
+        await dispatch(watchedListActions.addToWatchedList(movie));
+        dispatch(watchedListActions.init());
+        await dispatch(moviesListActions.deleteFromMoviesList(movie.id));
+        dispatch(moviesListActions.init());
+      }
     },
-  [dispatch, movie]);
+  [dispatch, movie, user]);
 
   return (
     <button

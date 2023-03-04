@@ -16,28 +16,50 @@ export const MoviesListPage = () => {
 
 
   useEffect(() => {
-    dispatch(moviesListActions.init());
-    dispatch(watchedListActions.init());
+    if (user) {
+      dispatch(moviesListActions.init());
+      dispatch(watchedListActions.init());
+
+    } else {
+      dispatch(moviesListActions.getFromLocalStorage());
+    }
   }, []);
+
+  if (!user) {
+    useEffect(() => {
+      dispatch(moviesListActions.setUpLocalStorage());
+    }, [movies, user]);
+  }
 
   const handleAddMovie = useCallback(
     async (newMovie: Movie) => {
       const newMovieUser = user
         ? { ...newMovie, user_id: user.id }
         : newMovie;
+      
+      if (!user) {
+        dispatch(moviesListActions.addToLocalStorage(newMovie));
+        return;
+      }
 
       await dispatch(moviesListActions.addToMoviesList(newMovieUser));
       dispatch(moviesListActions.init());
     },
-    [moviesListActions, dispatch]
+    [moviesListActions, dispatch, user]
   );
 
   const handleDeleteMovie = useCallback(
     async (id: string) => {
+
+      if (!user) {
+        dispatch(moviesListActions.deleteFromLocalStorage(id));
+        return;
+      }
+
       await dispatch(moviesListActions.deleteFromMoviesList(id));
       dispatch(moviesListActions.init());
     },
-    [moviesListActions, dispatch]
+    [moviesListActions, dispatch, user]
   );
 
   return (

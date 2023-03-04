@@ -18,21 +18,20 @@ const moviesListSlice = createSlice({
   name: 'moviesList',
   initialState,
   reducers: {
-     clearError: (state) => {
+    clearError: (state) => {
       state.error = '';
     },
     setUpLocalStorage: (state) => {
-      console.log('I\'m trying');
       localStorage.setItem('moviesList', JSON.stringify(state.movies));
     },
     getFromLocalStorage: (state) => {
-      state.movies = JSON.parse(localStorage.getItem("moviesList") as string);
+      state.movies = JSON.parse(localStorage.getItem("moviesList") as string) || [];
     },
     addToLocalStorage: (state, action) => {
-      state.movies = [...state.movies, action.payload];
+      state.movies = [action.payload, ...state.movies];
     },
-    deleteFromLocalStorage: ({ movies }, action) => {
-      movies = movies.filter(({ id }) => id !== action.payload);
+    deleteFromLocalStorage: (state, action) => {
+      state.movies = state.movies.filter(({ id }) => id !== action.payload);
     },
   },
   extraReducers: (builder) => {
