@@ -1,6 +1,8 @@
-import { FC, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import Select from "react-select";
-import watchedListActions from '../../api/watchedListService';
+import watchedListService from '../../api/watchedListService';
+import * as watchedListActions from "../../store/watchedList";
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import './SelectRating.scss';
 
 interface Mark {
@@ -26,13 +28,20 @@ type Props = {
 export const SelectRating: FC<Props> = ({ id, movieRating }) => {
   const defaultRating = marks.find((mark) => mark.value === movieRating) || null;
   const [rating, setRating] = useState<Mark | null>(defaultRating);
+  const { user } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
 
-  const handleChange = (selectedOption: Mark | null) => {
+  const handleChange = useCallback((selectedOption: Mark | null) => {
     if (selectedOption) {
       setRating(selectedOption);
-      watchedListActions.updateMovieRating(id, selectedOption.value);
+      if (!user) {
+        dispatch(watchedListActions.updateRatingOnLocalStorage({ id, rating: selectedOption.value }));
+        dispatch(watchedListActions.setUpLocalStorage());
+      } else {
+        watchedListService.updateMovieRating(id, selectedOption.value);
+      }
     }
-  };
+  }, [user]);
 
 const formatOptionLabel = (option: Mark) => (
   <div

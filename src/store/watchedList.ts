@@ -41,6 +41,15 @@ const watchedListSlice = createSlice({
     deleteFromLocalStorage: (state, action) => {
       state.movies = state.movies.filter(({ id }) => id !== action.payload);
     },
+    updateRatingOnLocalStorage: (state, action) => {
+      state.movies = state.movies.map(movie => {
+        if (movie.id === action.payload.id) {
+          return { ...movie, rating: action.payload.rating };
+        }
+
+        return movie;
+    });
+    },
   },
   extraReducers: (builder) => {
     // Init
@@ -133,4 +142,4 @@ export const deleteFromWatchedList = createAsyncThunk(
 });
 
 export default watchedListSlice.reducer;
-export const { setUpLocalStorage, getFromLocalStorage, addToLocalStorage, deleteFromLocalStorage, clearError } = watchedListSlice.actions;
+export const { setUpLocalStorage, getFromLocalStorage, addToLocalStorage, deleteFromLocalStorage, clearError, updateRatingOnLocalStorage } = watchedListSlice.actions;
