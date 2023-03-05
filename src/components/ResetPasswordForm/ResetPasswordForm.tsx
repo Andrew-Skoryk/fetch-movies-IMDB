@@ -28,7 +28,7 @@ export const ResetPasswordForm: FC<Props> = ({ authOptions }) => {
   const handleSubmite = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (isInputBad && AuthOptions.ChangePassword) {
+    if (isInputBad && !isThisResset) {
       setError("Password must be at least 6 characters long");
       return;
     }
