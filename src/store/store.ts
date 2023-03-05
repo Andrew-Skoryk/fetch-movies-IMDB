@@ -9,7 +9,9 @@ export const store = configureStore({
     watchedList: watchedListReducer.default,
     user: userReducer.default,
   },
-})
+});
+
+store.dispatch(userReducer.getFromLocalStorage());
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

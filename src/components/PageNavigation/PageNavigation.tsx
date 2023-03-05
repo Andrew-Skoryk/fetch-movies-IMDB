@@ -58,7 +58,7 @@ export const PageNavigation = () => {
 
                   <NavLink
                     to={"/login"}
-                    className={"button is-light"}
+                    className={"button is-info"}
                     onClick={handleReuse}
                   >
                     Log in

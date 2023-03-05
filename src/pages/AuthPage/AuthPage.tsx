@@ -3,24 +3,28 @@ import { FC, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthForm } from "../../components/AuthForm/";
 import { Loader } from "../../components/Loader";
+import { ResetPasswordForm } from "../../components/ResetPasswordForm";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import * as userActions from "../../store/user";
-import './AuthPage.scss';
+import { AuthOptions } from "../../types/AuthOptions";
+import "./AuthPage.scss";
 
 type Props = {
-  buttonText: string;
+  authOptions: AuthOptions;
 };
 
-export const AuthPage: FC<Props> = ({ buttonText }) => {
+export const AuthPage: FC<Props> = ({ authOptions }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { loading, notification, isError } = useAppSelector((state) => state.user);
+  const { loading, notification, isError } = useAppSelector(
+    (state) => state.user
+  );
 
-useEffect(() => {
-  return () => {
-    dispatch(userActions.clearNotification());
-  };
-}, [buttonText]);
+  useEffect(() => {
+    return () => {
+      dispatch(userActions.clearNotification());
+    };
+  }, [authOptions]);
 
   const handleTryAgain = useCallback(() => {
     dispatch(userActions.clearNotification());
@@ -28,8 +32,15 @@ useEffect(() => {
 
   const handleLogin = useCallback(() => {
     dispatch(userActions.clearNotification());
-    navigate('/login');
+    navigate("/login");
   }, []);
+
+  const handleResetPassword = useCallback(() => {
+    dispatch(userActions.clearNotification());
+    navigate("/resetpassword");
+  }, []);
+
+  const isResetPassword = authOptions === AuthOptions.ResetPassword || authOptions === AuthOptions.ChangePassword;
 
   return (
     <div className="section auth_container">
@@ -48,17 +59,28 @@ useEffect(() => {
             </article>
 
             {isError ? (
-              <button className="button is-warning" onClick={handleTryAgain}>
-                Try again
-              </button>
+              <div className="buttons">
+                <button className="button is-warning" onClick={handleTryAgain}>
+                  Try again
+                </button>
+
+                <button
+                  className="button is-info"
+                  onClick={handleResetPassword}
+                >
+                  Reset password
+                </button>
+              </div>
             ) : (
               <button className="button is-primary" onClick={handleLogin}>
                 Login
               </button>
             )}
           </>
+        ) : isResetPassword ? (
+          <ResetPasswordForm authOptions={authOptions} />
         ) : (
-          <AuthForm buttonText={buttonText} />
+          <AuthForm authOptions={authOptions} />
         )}
       </div>
     </div>

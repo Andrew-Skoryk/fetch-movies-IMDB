@@ -33,6 +33,9 @@ const moviesListSlice = createSlice({
     deleteFromLocalStorage: (state, action) => {
       state.movies = state.movies.filter(({ id }) => id !== action.payload);
     },
+    clearLocalStorage: () => {
+      localStorage.removeItem('moviesList');
+    },
   },
   extraReducers: (builder) => {
     // init

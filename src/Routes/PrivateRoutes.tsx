@@ -1,8 +1,4 @@
-import {
-  Navigate,
-  Route,
-  Routes,
-} from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { App } from "../App";
 import { NotFoundPage } from "../pages/NotFoundPage";
 import { HomePage } from "../pages/HomePage";
@@ -10,6 +6,7 @@ import { MoviesListPage } from "../pages/MoviesListPage";
 import { WatchedPage } from "../pages/WatchedPage";
 import { AuthPage } from "../pages/AuthPage";
 import { useAppSelector } from "../store/hooks";
+import { AuthOptions } from "../types/AuthOptions";
 
 export const PrivateRoutes = () => {
   const { user } = useAppSelector((state) => state.user);
@@ -35,12 +32,25 @@ export const PrivateRoutes = () => {
           <>
             <Route
               path="signup"
-              element={<AuthPage buttonText={"Create account"} />}
+              element={<AuthPage authOptions={AuthOptions.CreateAccount} />}
             />
 
-            <Route path="login" element={<AuthPage buttonText={"Login"} />} />
+            <Route
+              path="login"
+              element={<AuthPage authOptions={AuthOptions.Login} />}
+            />
           </>
         )}
+
+        <Route
+          path="resetpassword"
+          element={<AuthPage authOptions={AuthOptions.ResetPassword} />}
+        />
+
+        <Route
+          path="changepassword"
+          element={<AuthPage authOptions={AuthOptions.ChangePassword} />}
+        />
 
         <Route path="*" element={<NotFoundPage />} />
       </Route>

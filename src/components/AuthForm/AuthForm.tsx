@@ -9,12 +9,13 @@ import {
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import * as userActions from "../../store/user";
 import { useNavigate } from "react-router-dom";
+import { AuthOptions } from "../../types/AuthOptions";
 
 type Props = {
-  buttonText: string;
+  authOptions: AuthOptions;
 };
 
-export const AuthForm: FC<Props> = ({ buttonText }) => {
+export const AuthForm: FC<Props> = ({ authOptions }) => {
   const { user } = useAppSelector((state) => state.user);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,7 +29,7 @@ export const AuthForm: FC<Props> = ({ buttonText }) => {
 
   const handlePassword = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
-    setError('');
+    setError("");
   }, []);
 
   const isPassBad = password.length < 6;
@@ -45,18 +46,18 @@ export const AuthForm: FC<Props> = ({ buttonText }) => {
       return;
     }
 
-    if (buttonText === "Login") {
+    if (authOptions === AuthOptions.Login) {
       await dispatch(userActions.login({ email, password }));
       if (user) {
-        navigate('/');
+        navigate("/");
       }
-    } else {
+    } else if (authOptions === AuthOptions.CreateAccount) {
       dispatch(userActions.create({ email, password }));
     }
 
-    setError('');
-    setEmail('');
-    setPassword('');
+    setError("");
+    setEmail("");
+    setPassword("");
   };
 
   return (
@@ -116,7 +117,7 @@ export const AuthForm: FC<Props> = ({ buttonText }) => {
 
       <div className="field">
         <p className="control">
-          <button className="button is-primary">{buttonText}</button>
+          <button className="button is-primary">{authOptions}</button>
         </p>
       </div>
     </form>

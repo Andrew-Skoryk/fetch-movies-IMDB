@@ -50,6 +50,9 @@ const watchedListSlice = createSlice({
         return movie;
     });
     },
+    clearLocalStorage: () => {
+      localStorage.removeItem('watchedList');
+    },
   },
   extraReducers: (builder) => {
     // Init
