@@ -33,7 +33,13 @@ export const PageNavigation = () => {
       <div className="container">
         <div className="navbar-brand">
           <a className="navbar-item" href="./">
-            <img src="/images/icons-movie-projector.png" width="32" />
+            <img
+              src={
+                process.env.REACT_APP_SUPABASE_URL +
+                "/storage/v1/object/public/images/icons-movie-projector.png?t=2023-03-05T22%3A27%3A19.679Z"
+              }
+              width="32"
+            />
           </a>
 
           <a
